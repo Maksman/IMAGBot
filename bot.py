@@ -2,7 +2,7 @@
 # V1.121111
 
 # -*- coding: iso-8859-15 -*-
-import subprocess, httplib, base64, random, shlex, time, sys, re
+import subprocess, httplib, urllib, base64, random, shlex, time, sys, re
 
 #
 # GLOBAL VARS
@@ -287,8 +287,10 @@ def read_channel():
 
 def write_channel(msg):
 	conn = httplib.HTTPConnection(URL)
+	# Bullshit
+	msg_formatted = urllib.quote(msg.replace("&quot;", "\""))
 	# Build 'UPDATE' POST request
-	params_post = "pfc_ajax=1&f=handleRequest&cmd=%2Fsend%20" + client_id + "%20" + channel_id + "%20" + msg
+	params_post = "pfc_ajax=1&f=handleRequest&cmd=%2Fsend%20" + client_id + "%20" + channel_id + "%20" + msg_formatted
 	# Post it!
 	conn.request("POST", URL_CHAT, params_post, headers_post)
 	conn.close()
